@@ -1,9 +1,12 @@
 import './App.css';
+import Planets from "./components/Planets";
+import PlanetDetail from "./components/PlanetDetail";
 
 function App() {
   return (
     <div className="App">
-      {/* Todo */}
+      <Planets/>
+      <PlanetDetail/>
     </div>
   );
 }
