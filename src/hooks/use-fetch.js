@@ -10,7 +10,7 @@ const useFetch = (url) => {
   const cancelTokenSource = axios.CancelToken.source();
   const fetchData = useCallback(async () => {
     try {
-      const response = await axios.get(url, {cancelToken: cancelTokenSource.token});
+      const response = await axios.get(url);
       const data = await response.data;
       if (data) {
         setFetchedData({
@@ -36,8 +36,8 @@ const useFetch = (url) => {
   useEffect(() => {
     fetchData();
     return () => cancelTokenSource.cancel();
-  }, [url]);
-  const {data, isLoading, error} = fetchedData
+  }, [cancelTokenSource, fetchData, url]);
+  const {data, isLoading, error} = fetchedData;
   return {data, isLoading, error};
 };
 export default useFetch;

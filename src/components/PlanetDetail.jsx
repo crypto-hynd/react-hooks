@@ -1,8 +1,7 @@
 import useFetch from "../hooks/use-fetch";
 
-const Planets = () => {
-  const id = 1;
-  const url = `https://swapi.dev/api/planets/${id}`;
+const PlanetDetail = ({postId}) => {
+  const url = `https://swapi.dev/api/planets/${postId}`;
   const {data: planet, isLoading, error} = useFetch(url);
 
   if (isLoading) {
@@ -22,4 +21,4 @@ const Planets = () => {
     );
   }
 }
-export default Planets;
+export default PlanetDetail;

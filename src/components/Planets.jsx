@@ -1,6 +1,6 @@
 import useFetch from "../hooks/use-fetch";
 
-const Planets = () => {
+const Planets = ({onElementSelect}) => {
   const url = 'https://swapi.dev/api/planets';
   const {data, isLoading, error} = useFetch(url);
 
@@ -12,7 +12,14 @@ const Planets = () => {
   }
   return (
     <div>
-      {data.map(el => <p key={el.name}>{el.name}</p>)}
+      {data.map((el, i) =>
+        <p
+          style={{cursor: "pointer", color: "blue", textDecoration: "underline"}}
+          key={el.name}
+          onClick={() => onElementSelect(++i)}>
+          {el.name}
+        </p>
+      )}
     </div>
   );
 }
