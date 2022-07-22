@@ -2,13 +2,16 @@ import {useState} from "react";
 
 const Counter = (props) => {
   const [counter, setCounter] = useState(0);
+  const [showText, setShowText] = useState(false);
 
   const increment = counter => {
     setCounter(++counter);
+    setShowText(true);
   }
 
   const decrement = counter => {
     counter !== 0 && setCounter(--counter);
+    counter === 0 && setShowText(false);
   }
 
   return (
@@ -33,7 +36,10 @@ const Counter = (props) => {
           +
         </button>
       </div>
-      <p><b>Counter:</b> <span>{counter}</span></p>
+      {
+        showText &&
+        <p><b>Counter:</b> <span>{counter}</span></p>
+      }
     </div>
   );
 }
