@@ -7,7 +7,7 @@ function App() {
       <div className={'container'}>
         <div className={'column is-8 is-offset-2'}>
           <h1>React Hooks!</h1>
-          <Counter/>
+          <Counter initialState={{counter: 0, showText: false}}/>
         </div>
       </div>
     </div>

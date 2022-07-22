@@ -1,18 +1,32 @@
-import {useState} from "react";
+import {useReducer} from "react";
 
-const Counter = (props) => {
-  const [counter, setCounter] = useState(0);
-  const [showText, setShowText] = useState(false);
+const init = initialState => {
+  return initialState;
+}
 
-  const increment = counter => {
-    setCounter(++counter);
-    setShowText(true);
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'decrement': {
+      const counter = state.counter > 0 ? state.counter - 1 : 0;
+      return {counter: counter, showText: counter !== 0};
+    }
+    case 'increment' : {
+      const counter = state.counter + 1;
+      return {counter: counter, showText: counter !== 0};
+    }
+    case 'reset': {
+      return init(action.payload)
+    }
+    case 'changeValue': {
+      return {counter: action.payload, showText: state.showText};
+    }
+    default:
+      throw new Error();
   }
+}
 
-  const decrement = counter => {
-    counter !== 0 && setCounter(--counter);
-    counter === 0 && setShowText(false);
-  }
+const Counter = ({initialState}) => {
+  const [state, dispatch] = useReducer(reducer, initialState, init);
 
   return (
     <div className={'has-text-centered'}>
@@ -20,25 +34,28 @@ const Counter = (props) => {
       <div className={'is-inline-flex'}>
         <button
           className={'button is-primary has-text-weight-bold mr-4'}
-          onClick={() => decrement(counter)}>
+          onClick={() => dispatch({type: 'decrement'})}>
           -
         </button>
         <input
           type="number"
           className={'column input is-primary has-text-centered'}
-          value={counter}
-          onChange={e => {
-            setCounter(e.target.value);
-          }}/>
+          value={state.counter}
+          onChange={e => dispatch({type: 'changeValue', payload: e.target.value})}
+          />
         <button
           className={'button is-primary has-text-weight-bold ml-4'}
-          onClick={() => increment(counter)}>
+          onClick={() => dispatch({type: 'increment'})}>
           +
         </button>
       </div>
       {
-        showText &&
-        <p><b>Counter:</b> <span>{counter}</span></p>
+        state.showText &&
+        <p>
+          <b>Counter:</b> <span>{state.counter}</span>
+          <br/>
+          <button className={'button is-danger'} onClick={() => dispatch({type: 'reset', payload: initialState})}>reset</button>
+        </p>
       }
     </div>
   );
